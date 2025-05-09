@@ -1,8 +1,3 @@
-Here's your complete `README.md` artifact, compiled from all the previous stubs and tailored to the code in your canvas:
-
----
-
-### 📄 `README.md`
 
 ````markdown
 # 🐤 Robot Duck Landing Page
