@@ -1,96 +1,116 @@
+# 🦆 Robot Duck Website
 
-````markdown
-# 🐤 Robot Duck Landing Page
+A whimsical, multi-page website featuring robot ducks, classic cartoon characters, agricultural history, and bird conspiracy theories—where cold steel meets sunlit waters and whimsy floats effortlessly.
 
-A whimsical, mobile-optimized landing page built with React + TailwindCSS — where cold steel meets sunlit waters and whimsy floats effortlessly.
-
-![Robot Duck Screenshot](./assets/robot-duck.jpg)
+![Robot Duck Screenshot](./robot-duck.jpg)
 
 ## 📜 Project Description
 
 This playful project features:
 
-- A bold call-to-action headline and subtext
-- An evocative image of a robot floating with a rubber duck float
-- A lyrical ekphrasis about the artwork
-- Simple email capture form with CAPTCHA checkbox
-- Clean footer with credits
-- Mobile-first, responsive layout styled with TailwindCSS
+- Main landing page with robot duck image and email subscription form
+- Scientific analysis of real ducks with taxonomy and facts
+- Celebrity ducks archive with profiles of famous cartoon ducks
+- F.H. King biography page covering his agricultural observations
+- "Birds Aren't Real" movement analysis and timeline
+- Interactive research lab with chat interface
+- Robot Duck product shop (currently sold out due to migration)
+- Duck business economics with market data
+- Legal policies with duck-themed terms of service
+- Comprehensive sitemap for easy navigation
+
+All pages feature consistent styling, responsive design, and smooth transitions for a seamless user experience.
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites:
-- Node.js (v18+ recommended)
-- npm or yarn
+- Node.js (v14+ recommended)
+- npm
 
 ### Install dependencies:
 ```bash
 npm install
-# or
-yarn install
-````
-
-### Run locally:
-
-```bash
-npm run dev
-# or
-yarn dev
 ```
 
-Visit `http://localhost:3000` to view the page.
+### Run locally:
+```bash
+npm start
+```
+
+Visit `http://localhost:5000` to view the site.
+
+### Deploy to GitHub Pages:
+```bash
+npm run build
+npm run deploy
+```
 
 ---
 
 ## 📁 Project Structure
 
 ```
-/public
-  └── Gemini_Generated_Image_qvaksoqvaksoqvak.jpg  # Your featured image
-/src
-  └── components
-      └── RobotDuckLandingPage.jsx                # The main React component
+/robot-duck
+├── index.html                     # Main landing page
+├── about-real-ducks-page.html     # Scientific duck information
+├── celebrity-ducks-page.html      # Cartoon duck characters
+├── fake-birds-page.html           # Birds Aren't Real analysis
+├── fh-king-page.html              # F.H. King biography
+├── further-research-page.html     # Interactive lab
+├── duck-data-page.html            # Duck market economics
+├── shop-page.html                 # Product page (sold out)
+├── legal-policies-page.html       # Terms & policies
+├── sitemap.html                   # Site navigation overview
+├── robot-duck.jpg                 # Main robot duck image
+├── robot-duck-2.jpg               # Scientific specimen image
+├── robot-duck-3.jpg               # Research lab specimen
+├── fix-navigation.js              # Link fixing script
+├── package.json                   # Project configuration
+└── README.md                      # This file
 ```
 
 ---
 
-## ✏️ Customizing
+## 🛠 Customizing
 
-* Replace the image in `/public/` if desired
-* Edit CTA, text, or footer inside `RobotDuckLandingPage.jsx`
-* Update styles via Tailwind classes
-
----
-
-## 🛠 Tech Stack
-
-* [React](https://reactjs.org/)
-* [TailwindCSS](https://tailwindcss.com/)
-* Optional: [Vite](https://vitejs.dev/) or [Next.js](https://nextjs.org/) for faster builds
+* All content is contained in the HTML files using inline CSS
+* Images can be replaced with your own (maintain the same filenames)
+* Navigation between pages is handled through relative links
+* Email form can be connected to an actual service by updating form action
 
 ---
 
-## 📦 Deploy
+## 🔧 Fixing Navigation
 
-Deploy effortlessly with:
+If you rename any files or notice navigation issues, you can run the included fix script:
 
-* [Vercel](https://vercel.com/)
-* [Netlify](https://www.netlify.com/)
+```bash
+node fix-navigation.js
+```
+
+This will update all links across the site to maintain consistent navigation.
+
+---
+
+## 📦 Deployment
+
+Deploy to GitHub Pages using the included scripts, or use any static site hosting:
+
 * [GitHub Pages](https://pages.github.com/)
+* [Netlify](https://www.netlify.com/)
+* [Vercel](https://vercel.com/)
+* [Surge](https://surge.sh/)
 
 ---
 
 ## 📜 License
 
-- Apache 2.o
+- Apache 2.0
 
 ---
 
 ## ✨ Credits
 
-Created by **you** & ChatGPT (2025)
-[www.your-name-here.org](http://www.your-name-here.org)
-
-```
+Created by [afrigino](https://github.com/afrigino)
