@@ -4,7 +4,7 @@
 
 A whimsical, mobile-optimized landing page built with React + TailwindCSS — where cold steel meets sunlit waters and whimsy floats effortlessly.
 
-![Robot Duck Screenshot](./docs.robot-duck-image.jpg)
+![Robot Duck Screenshot](./assets/robot-duck.jpg)
 
 ## 📜 Project Description
 
