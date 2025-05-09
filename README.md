@@ -1,7 +1,13 @@
+Here's your complete `README.md` artifact, compiled from all the previous stubs and tailored to the code in your canvas:
 
+---
+
+### 📄 `README.md`
+
+````markdown
 # 🐤 Robot Duck Landing Page
 
-A whimsical, mobile-optimized landing page built with React + TailwindCSS — where cold steel meets sunlit waters and whimsy floats effortlessly. 
+A whimsical, mobile-optimized landing page built with React + TailwindCSS — where cold steel meets sunlit waters and whimsy floats effortlessly.
 
 ![Robot Duck Screenshot](./public/Gemini_Generated_Image_qvaksoqvaksoqvak.jpg)
 
@@ -29,3 +35,72 @@ This playful project features:
 npm install
 # or
 yarn install
+````
+
+### Run locally:
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+Visit `http://localhost:3000` to view the page.
+
+---
+
+## 📁 Project Structure
+
+```
+/public
+  └── Gemini_Generated_Image_qvaksoqvaksoqvak.jpg  # Your featured image
+/src
+  └── components
+      └── RobotDuckLandingPage.jsx                # The main React component
+```
+
+---
+
+## ✏️ Customizing
+
+* Replace the image in `/public/` if desired
+* Edit CTA, text, or footer inside `RobotDuckLandingPage.jsx`
+* Update styles via Tailwind classes
+
+---
+
+## 🛠 Tech Stack
+
+* [React](https://reactjs.org/)
+* [TailwindCSS](https://tailwindcss.com/)
+* Optional: [Vite](https://vitejs.dev/) or [Next.js](https://nextjs.org/) for faster builds
+
+---
+
+## 📦 Deploy
+
+Deploy effortlessly with:
+
+* [Vercel](https://vercel.com/)
+* [Netlify](https://www.netlify.com/)
+* [GitHub Pages](https://pages.github.com/)
+
+---
+
+## 📜 License
+
+MIT — free to use, remix, and share.
+
+---
+
+## ✨ Credits
+
+Created by **you** & ChatGPT (2025)
+[www.your-name-here.org](http://www.your-name-here.org)
+
+```
+
+---
+
+Let me know if you'd like this zipped up or want a `package.json` and Tailwind config scaffold to go with it.
+```
