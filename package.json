@@ -2,6 +2,24 @@
   "name": "robot-duck-landing-page",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://afrigino.github.io/robot-duck-landing-page/",
-  ...
+  "homepage": "https://afrigino.github.io/robot-duck/",
+  "description": "A whimsical website about robot ducks with multiple themed pages",
+  "scripts": {
+    "start": "serve",
+    "build": "mkdir -p dist && cp -r *.html *.jpg *.css *.js dist/",
+    "deploy": "gh-pages -d dist"
+  },
+  "keywords": [
+    "robot-duck",
+    "whimsy",
+    "landing-page",
+    "HTML",
+    "CSS"
+  ],
+  "author": "afrigino",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "serve": "^14.2.1"
+  }
 }
