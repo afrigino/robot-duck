@@ -89,7 +89,7 @@ Deploy effortlessly with:
 
 ## 📜 License
 
-MIT — free to use, remix, and share.
+- Apache 2.o
 
 ---
 
@@ -98,9 +98,4 @@ MIT — free to use, remix, and share.
 Created by **you** & ChatGPT (2025)
 [www.your-name-here.org](http://www.your-name-here.org)
 
-```
-
----
-
-Let me know if you'd like this zipped up or want a `package.json` and Tailwind config scaffold to go with it.
 ```
