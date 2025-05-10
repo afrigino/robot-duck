@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Further Research - Robot Duck Interaction Lab</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #000000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .container.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #FF0000;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #000000;
+      font-style: italic;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 2rem;
+    }
+
+    .image-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 2rem auto;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .image-caption {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      color: #000000;
+      border-top-left-radius: 0.5rem;
+    }
+
+    .interaction-container {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .interaction-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .interaction-icon {
+      margin-right: 0.75rem;
+      color: #FF0000;
+    }
+
+    .interaction-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #000000;
+      margin: 0;
+    }
+
+    .interaction-description {
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .dialog-container {
+      background-color: #f9f9f9;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .dialog-form {
+      display: flex;
+      margin-bottom: 1.5rem;
+    }
+
+    .dialog-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem 0 0 0.5rem;
+      font-size: 1rem;
+    }
+
+    .dialog-input:focus {
+      outline: none;
+      border-color: #FF0000;
+    }
+
+    .dialog-button {
+      padding: 0.75rem 1.5rem;
+      background-color: #FF0000;
+      color: white;
+      border: none;
+      border-radius: 0 0.5rem 0.5rem 0;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .dialog-button:hover {
+      background-color: #CC0000;
+    }
+
+    .dialog-messages {
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 1rem;
+      background-color: white;
+      border-radius: 0.5rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .message:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .message-human {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .message-human .message-avatar {
+      background-color: #f0f0f0;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .message-human .message-avatar svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      color: #666;
+    }
+
+    .message-human .message-content {
+      background-color: #f0f0f0;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      max-width: 80%;
+    }
+
+    .message-duck {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      margin-left: 3rem;
+    }
+
+    .message-duck .message-avatar {
+      background-color: #fff5f5;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 0.75rem;
+      flex-shrink: 0;
+      order: 2;
+    }
+
+    .message-duck .message-avatar svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      color: #FF0000;
+    }
+
+    .message-duck .message-content {
+      background-color: #fff5f5;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      max-width: 80%;
+      order: 1;
+    }
+
+    .response-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      border-radius: 0.5rem;
+      border: 1px solid #eaeaea;
+      display: none;
+    }
+
+    .response-box.active {
+      display: block;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .response-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #FF0000;
+    }
+
+    .response-message {
+      line-height: 1.5;
+    }
+
+    .experimental-notes {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .notes-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #000000;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .notes-content {
+      line-height: 1.6;
+    }
+
+    .notes-content p {
+      margin-bottom: 1rem;
+    }
+
+    .notes-content .highlight {
+      background-color: #fff5f5;
+      padding: 0.25rem;
+      font-style: italic;
+    }
+
+    .nav-links {
+      margin-top: 2rem;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      color: #000000;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid #eaeaea;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: #f9f9f9;
+      border-color: #FF0000;
+      color: #FF0000;
+    }
+
+    .nav-link svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .nav-link-prev svg {
+      margin-right: 0.5rem;
+    }
+
+    .nav-link-next svg {
+      margin-left: 0.5rem;
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      color: #000000;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #FF0000;
+    }
+
+    .copyright {
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .credit {
+      font-size: 0.75rem;
+    }
+
+    .support-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #FF0000;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .support-link:hover {
+      background-color: #CC0000;
+      transform: translateY(-2px);
+    }
+
+    @media (min-width: 768px) {
+      .content-wrapper {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+
+      .image-container {
+        width: 35%;
+        margin: 0;
+      }
+
+      .interaction-container {
+        width: 65%;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Robot Duck Analysis Lab</h1>
+      <h2>Experimental interface between human and synthetic anatidae. Interaction results may vary. Proceed with scientific curiosity.</h2>
+    </header>
+
+    <div class="content-wrapper">
+      <div class="image-container">
+        <img src="/api/placeholder/400/320" alt="Robot Duck Research Specimen" id="robot-duck-image">
+        <div class="image-caption">Specimen RD-3: Communication Module</div>
+      </div>
+
+      <div class="interaction-container">
+        <div class="interaction-header">
+          <svg class="interaction-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <h3 class="interaction-title">Interactive Dialog Interface</h3>
+        </div>
+
+        <p class="interaction-description">
+          This terminal provides direct communication with our Robot Duck prototype. Type your message below to initiate conversation. Please note all interactions are recorded for research purposes. Response latency and content quality are subject to ongoing calibration.
+        </p>
+
+        <div class="dialog-container">
+          <div class="dialog-form">
+            <input type="text" id="userInput" class="dialog-input" placeholder="Enter your message to Robot Duck..." aria-label="Your message">
+            <button id="sendButton" class="dialog-button">Send</button>
+          </div>
+
+          <div class="dialog-messages" id="messageContainer">
+            <div class="message message-duck">
+              <div class="message-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </div>
+              <div class="message-content">
+                Greetings, human researcher. I am Robot Duck. You may begin your inquiry.
+              </div>
+            </div>
+          </div>
+
+          <div class="response-box" id="responseBox">
+            <div class="response-title">System Notification:</div>
+            <div class="response-message" id="responseMessage"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="experimental-notes">
+      <div class="notes-header">Research Log: Communication Patterns</div>
+      <div class="notes-content">
+        <p>Day 147: Robot Duck specimen continues to display predictable yet intriguing linguistic patterns. Initial hypothesis regarding affective response mechanisms has been partially confirmed through controlled dialog scenarios, though limitations remain evident in complex semantic processing.</p>
+        <p>Of particular interest is the specimen's fixation on <span class="highlight">economic opportunities related to mythological avian specimens</span>, which emerged spontaneously during week 12 of observation. This behavior was neither programmed nor anticipated, suggesting potential emergent cognitive properties worth further investigation.</p>
+        <p>Continued monitoring is strongly recommended. Researchers are advised to document all interactions, noting especially any deviations from the established communication protocol or references to "golden" objects.</p>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a href="about-ducks.html" class="nav-link nav-link-prev">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Duck Analysis
+      </a>
+      <a href="index.html" class="nav-link nav-link-next">
+        Back to Home
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+
+    <footer>
+      <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Privacy</a>
+        <a href="#">Contact</a>
+      </div>
+      <p class="copyright">© 2025 RobotDuck.org</p>
+      <p class="credit">Design by You & Claude</p>
+      <a href="https://www.patreon.com/YOUR_PATREON_NAME" target="_blank" class="support-link">Support</a>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Show content with animation after page loads
+      setTimeout(function() {
+        document.querySelector('.container').classList.add('loaded');
+      }, 100);
+      
+      // Replace placeholder with actual image
+      const img = document.getElementById('robot-duck-image');
+      img.src = 'robot-duck-3.jpg';
+      
+      // Get DOM elements
+      const userInput = document.getElementById('userInput');
+      const sendButton = document.getElementById('sendButton');
+      const messageContainer = document.getElementById('messageContainer');
+      const responseBox = document.getElementById('responseBox');
+      const responseMessage = document.getElementById('responseMessage');
+      
+      // Track if golden egg message has been shown
+      let goldenEggMessageShown = false;
+      
+      // Function to add a message to the chat
+      function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message message-${sender}`;
+        
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'message-avatar';
+        
+        // Different icon for human vs duck
+        if (sender === 'human') {
+          avatarDiv.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          `;
+        } else {
+          avatarDiv.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          `;
+        }
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content';
+        contentDiv.textContent = text;
+        
+        messageDiv.appendChild(avatarDiv);
+        messageDiv.appendChild(contentDiv);
+        
+        messageContainer.appendChild(messageDiv);
+        
+        // Scroll to bottom of messages
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+      }
+      
+      // Function to show system notification
+      function showNotification(message) {
+        responseMessage.textContent = message;
+        responseBox.classList.add('active');
+      }
+      
+      // Handle send button click
+      function handleSend() {
+        const text = userInput.value.trim();
+        if (text) {
+          // Add user message
+          addMessage(text, 'human');
+          
+          // Clear input
+          userInput.value = '';
+          
+          // Simulate robot duck processing (short delay)
+          setTimeout(() => {
+            // Add robot duck response - always "Quack!"
+            addMessage("Quack!", 'duck');
+            
+            // Show golden egg message if not shown yet
+            if (!goldenEggMessageShown) {
+              setTimeout(() => {
+                showNotification("Robot-duck says it is unavailable now because it heard about the goose and is also now looking for a golden egg.");
+                goldenEggMessageShown = true;
+              }, 1000);
+            }
+          }, 500);
+        }
+      }
+      
+      // Event listeners
+      sendButton.addEventListener('click', handleSend);
+      
+      userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          handleSend();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

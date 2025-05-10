@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F.H. King: Agricultural Visionary</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #000000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .container.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #FF0000;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #000000;
+      font-style: italic;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .biography-section {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .section-icon {
+      margin-right: 0.75rem;
+      color: #FF0000;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #000000;
+      margin: 0;
+    }
+
+    .portrait-container {
+      float: right;
+      margin: 0 0 1rem 1.5rem;
+      width: 180px;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .portrait {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .biography-content {
+      line-height: 1.6;
+    }
+
+    .biography-content p {
+      margin-bottom: 1rem;
+    }
+
+    .timeline {
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .timeline:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background-color: #eaeaea;
+    }
+
+    .timeline-item {
+      margin-left: 2rem;
+      padding-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .timeline-item:before {
+      content: '';
+      position: absolute;
+      left: -2.5rem;
+      top: 0.3rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background-color: #FF0000;
+    }
+
+    .timeline-date {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-content {
+      line-height: 1.5;
+    }
+
+    .duck-farming-section {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .image-container {
+      width: 100%;
+      margin: 1.5rem 0;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .image-caption {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: #666;
+      text-align: center;
+      font-style: italic;
+    }
+
+    blockquote {
+      margin: 1.5rem 0;
+      padding: 1rem 1.5rem;
+      border-left: 4px solid #FF0000;
+      background-color: #f9f9f9;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+    }
+
+    .canal-section {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .book-section {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .book-container {
+      display: flex;
+      margin: 1.5rem 0;
+    }
+
+    .book-cover {
+      flex: 0 0 200px;
+      margin-right: 1.5rem;
+    }
+
+    .book-cover img {
+      width: 100%;
+      height: auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 0.25rem;
+    }
+
+    .book-details {
+      flex: 1;
+    }
+
+    .book-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-meta {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .book-description {
+      line-height: 1.6;
+    }
+
+    .quote-section {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .legacy-section {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .legacy-list {
+      list-style-type: none;
+      margin: 1rem 0;
+    }
+
+    .legacy-list li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .legacy-list li:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #FF0000;
+      border-radius: 50%;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #FF0000;
+    }
+
+    .copyright {
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+      text-align: center;
+    }
+
+    .credit {
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    .support-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #FF0000;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .support-link:hover {
+      background-color: #CC0000;
+      transform: translateY(-2px);
+    }
+
+    .nav-links {
+      margin-top: 2rem;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      color: #000000;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid #eaeaea;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: #f9f9f9;
+      border-color: #FF0000;
+      color: #FF0000;
+    }
+
+    .nav-link svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .nav-link-prev svg {
+      margin-right: 0.5rem;
+    }
+
+    .nav-link-next svg {
+      margin-left: 0.5rem;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 2rem 0;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-top: 1px solid #eaeaea;
+    }
+
+    @media (max-width: 768px) {
+      .portrait-container {
+        float: none;
+        margin: 0 auto 1.5rem;
+        width: 200px;
+      }
+
+      .book-container {
+        flex-direction: column;
+      }
+
+      .book-cover {
+        margin-right: 0;
+        margin-bottom: 1.5rem;
+        max-width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>F.H. King: Agricultural Visionary</h1>
+      <h2>Chronicler of Sustainable Farming Practices in Early 20th Century China</h2>
+    </header>
+
+    <div class="biography-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <h3 class="section-title">Biography & Academic Contributions</h3>
+      </div>
+
+      <div class="biography-content">
+        <div class="portrait-container">
+          <img src="/api/placeholder/180/240" alt="Portrait of F.H. King" class="portrait" id="king-portrait">
+          <p class="image-caption">Franklin Hiram King (1848-1911)</p>
+        </div>
+
+        <p>Franklin Hiram King (June 8, 1848 – August 4, 1911) was an American agricultural scientist born on a farm near Whitewater, Wisconsin. After receiving his education at Whitewater State Normal School and Cornell University, King went on to become a pioneering figure in agricultural physics and soil science.</p>
+
+        <p>King served as a professor of agricultural physics at the University of Wisconsin-Madison from 1888 to 1902. During his tenure, he made significant contributions in various areas of agricultural science, particularly in soil physics, irrigation, and drainage systems. His research focused on the water-holding capacities of soils, moisture requirements of plants, and the movement of water in soils—all critical elements for sustainable agriculture.</p>
+
+        <p>In 1902, King accepted a position with the USDA Bureau of Soils, but resigned in 1904 due to professional disagreements over scientific approaches. He then returned to Madison, Wisconsin, where he continued his research independently until his death in 1911.</p>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-date">1848</div>
+            <div class="timeline-content">Born on June 8 near Whitewater, Wisconsin</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">1872</div>
+            <div class="timeline-content">Graduated from Whitewater State Normal School</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">1888-1902</div>
+            <div class="timeline-content">Professor of Agricultural Physics at University of Wisconsin-Madison</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">1902-1904</div>
+            <div class="timeline-content">Worked at the USDA Bureau of Soils</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">1909</div>
+            <div class="timeline-content">Nine-month tour of China, Korea, and Japan studying agricultural practices</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">1911</div>
+            <div class="timeline-content">Died on August 4 in Madison, Wisconsin, shortly before the publication of his most famous work</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="duck-farming-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path>
+          <line x1="16" y1="8" x2="2" y2="22"></line>
+          <line x1="17.5" y1="15" x2="9" y2="15"></line>
+        </svg>
+        <h3 class="section-title">Human-Avian Systems on China's Canals</h3>
+      </div>
+
+      <div class="duck-farming-content">
+        <p>During his extensive travels through China in 1909, King documented numerous sustainable agricultural practices, but few captured his imagination quite like the integrated human-avian systems he observed on China's ancient canal networks. At this time, China was just beginning to build its first modern railroads, creating a fascinating juxtaposition between ancient sustainable practices and modern industrial development.</p>
+
+        <blockquote>
+          <p>"We passed two men in a boat, in charge of a huge flock of some hundreds of yellow ducklings. Anchored to the bank was a large houseboat provided with an all-around, over-hanging rim and on board was a stack of rice straw and other things which constituted the floating home of the ducks."</p>
+        </blockquote>
+
+        <div class="image-container">
+          <img src="/api/placeholder/800/400" alt="Chinese canal system with duck farming" id="duck-farming-image">
+          <p class="image-caption">Recreation of a traditional Chinese canal with duck farming boats, similar to what King would have observed in 1909</p>
+        </div>
+
+        <p>King was particularly impressed by the mobility and efficiency of this farming system. He noted that "both ducks and geese are reared in this manner in large numbers by the river population." The ingenious approach allowed farmers to move their flocks to optimal feeding grounds while maintaining complete control over the animals.</p>
+
+        <p>When it was necessary to relocate the flock, King observed that "a gang plank is put ashore and the flock come on board to remain for the night or to be landed at another place." This mobile farming system maximized the use of natural resources and created a symbiotic relationship between the waterways, the birds, and the human farmers.</p>
+
+        <p>The ducks would feed on small aquatic life forms in the canals and surrounding wetlands—insects, small fish, snails, and water plants—effectively converting these resources into protein (meat) and nutrient-rich eggs for human consumption. Additionally, their droppings would fertilize the water, encouraging the growth of plankton and other micro-organisms that supported aquatic life, creating a sustainable ecological cycle.</p>
+      </div>
+    </div>
+
+    <div class="canal-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+        </svg>
+        <h3 class="section-title">The Wonderful Canals of China</h3>
+      </div>
+
+      <div class="canal-content">
+        <p>King was so impressed by China's extensive canal systems that he later wrote a dedicated article titled "The Wonderful Canals of China" for National Geographic (published posthumously in October 1912). These canals, some dating back over a thousand years, formed the backbone of China's agricultural and transportation infrastructure.</p>
+
+        <div class="image-container">
+          <img src="/api/placeholder/800/400" alt="Historical photograph of Chinese canal" id="canal-image">
+          <p class="image-caption">A section of China's Grand Canal system in the early 20th century</p>
+        </div>
+
+        <p>During his journey on the West River (Si-kiang), King observed how the canal system facilitated not just transportation but was integral to the entire agricultural ecosystem. The canals provided irrigation for fields, allowed for the movement of goods and fertilizers, and supported diverse farming systems including the duck-farming operations that caught his attention.</p>
+
+        <p>King noted that the first railroad was just being built in China during his visit, marking a transitional period in the country's development. He saw that the ancient canal systems and the new railroads represented two different approaches to infrastructure and agricultural development—one built on centuries of sustainable practice, the other on industrial efficiency.</p>
+
+        <p>The canal system's integration with agricultural practices demonstrated to King how the Chinese farmers had developed a holistic approach to land management. Fields were surrounded by dikes to protect against high water, with canals leading from tide gates sometimes "eighty or a hundred rods" into the fields, creating an elaborate network for water management and transportation.</p>
+      </div>
+    </div>
+
+    <div class="book-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <h3 class="section-title">Farmers of Forty Centuries</h3>
+      </div>
+
+      <div class="book-container">
+        <div class="book-cover">
+          <img src="/api/placeholder/200/300" alt="Book cover of Farmers of Forty Centuries" id="book-cover">
+        </div>
+        <div class="book-details">
+          <h4 class="book-title">Farmers of Forty Centuries, or Permanent Agriculture in China, Korea, and Japan</h4>
+          <p class="book-meta">Published posthumously in 1911 by Mrs. F.H. King (Carrie Baker King)</p>
+          <div class="book-description">
+            <p>King's magnum opus documented his investigations into what would now be called organic farming or sustainable agriculture during his nine-month tour of Asia in 1909. The book reveals the secrets of ancient farming methods that had allowed densely populated regions to maintain soil fertility for thousands of years.</p>
+            <p>The work contains 246 illustrations and provides intricate details of farming techniques, water management, fertilization practices, and integrated farming systems. The title refers to the forty centuries (4,000 years) of continuous agriculture that had been practiced in parts of Asia without depleting soil resources—a stark contrast to the destructive farming practices King observed in America, where just three generations had exhausted once-fertile virgin soil.</p>
+            <p>Lord Northbourne, considered the founder of organic agriculture, described King's book as a "classic" which "no student of farming or social science can afford to ignore." It continues to influence sustainable agriculture advocates and permaculture practitioners to this day.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <h3 class="section-title">Key Observations & Quotes</h3>
+      </div>
+
+      <blockquote>
+        <p>"We in North America are wont to think that we may instruct all the world in agriculture, because our agricultural wealth is great and our exports to less favored peoples have been heavy; but this wealth is great because our soil is fertile and new, and in large acreage for every person. We have really only begun to farm well."</p>
+      </blockquote>
+
+      <blockquote>
+        <p>"The first condition of farming is to maintain fertility. This condition the oriental peoples have met, and they have solved it in their way. We may never adopt particular methods, but we can profit vastly by their experience."</p>
+      </blockquote>
+
+      <blockquote>
+        <p>"It is one of the great marvels of the world that these people have been able to maintain soil fertility for four thousand years and at the same time to feed a population which has averaged more than a billion souls for centuries."</p>
+      </blockquote>
+    </div>
+
+    <div class="legacy-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 11 12 14 22 4"></polyline>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+        <h3 class="section-title">Legacy & Modern Relevance</h3>
+      </div>
+
+      <div class="legacy-content">
+        <p>F.H. King's work, particularly "Farmers of Forty Centuries," has had a profound and lasting impact on sustainable agriculture worldwide. His documentation of Asian farming practices arrived at a crucial moment in agricultural history, as industrial farming methods were beginning to dominate in Western countries.</p>
+
+        <ul class="legacy-list">
+          <li><strong>Organic Agriculture Movement</strong> — King's work influenced Lord Northbourne, who coined the term "organic farming" in 1940. His observations about maintaining soil fertility through natural processes became foundational principles in the organic movement.</li>
+          
+          <li><strong>Permaculture</strong> — The book is frequently cited by permaculture founders Bill Mollison and David Holmgren as a major influence. The term "permaculture" itself (permanent agriculture) echoes the subtitle of King's book.</li>
+          
+          <li><strong>Sustainable Water Management</strong> — King's detailed documentation of canal systems and water management continues to inform modern approaches to irrigation and water conservation.</li>
+          
+          <li><strong>Integrated Animal Systems</strong> — His observations of duck-farming on canals and other integrated animal-plant systems have inspired modern regenerative agriculture practices.</li>
+          
+          <li><strong>Historical Record</strong> — Beyond agriculture, King's work provides a valuable historical record of farming practices in East Asia at the beginning of the 20th century, many of which have since been lost to industrialization.</li>
+        </ul>
+
+        <p>In an era of growing concern about soil degradation, water scarcity, and the environmental impacts of industrial agriculture, King's century-old observations have renewed relevance. His work serves as both a warning about unsustainable practices and a guide to time-tested methods of conservation and regeneration.</p>
+
+        <p>At the University of Wisconsin-Madison, King is commemorated by King Hall (renamed in 1934), which houses part of the Department of Soil Science. The F. H. King Students for Sustainable Agriculture, a student organization that grows and distributes crops to community residents, continues his legacy by raising awareness of sustainable farming practices.</p>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a href="further-research.html" class="nav-link nav-link-prev">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Research Lab
+      </a>
+      <a href="index.html" class="nav-link nav-link-next">
+        Back to Home
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="copyright">© 2025 RobotDuck.org</p>
+    <p class="credit">Design by You & Claude</p>
+    <a href="https://www.patreon.com/YOUR_PATREON_NAME" target="_blank" class="support-link">Support</a>
+  </footer>
+
+  <script>
+    // Show content with animation after page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        document.querySelector('.container').classList.add('loaded');
+      }, 100);
+      
+      // Replace placeholder images with actual images if available
+      // These would be replaced with actual image paths in a real implementation
+      document.getElementById('king-portrait').src = 'king-portrait.jpg';
+      document.getElementById('duck-farming-image').src = 'duck-farming.jpg';
+      document.getElementById('canal-image').src = 'china-canal.jpg';
+      document.getElementById('book-cover').src = 'book-cover.jpg';
+    });
+  </script>
+</body>
+</html>

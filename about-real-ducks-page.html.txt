@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Real Ducks - Scientific Overview</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #000000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .container.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #FF0000;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #000000;
+      font-style: italic;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 3rem;
+    }
+
+    .image-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 2rem auto;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .image-caption {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      color: #000000;
+      border-top-left-radius: 0.5rem;
+    }
+
+    .monograph {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .monograph p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .monograph p:last-child {
+      margin-bottom: 0;
+    }
+
+    .scientific-container {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .scientific-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .scientific-icon {
+      margin-right: 0.75rem;
+      color: #FF0000;
+    }
+
+    .scientific-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #000000;
+      margin: 0;
+    }
+
+    .factoid-list {
+      list-style-type: none;
+    }
+
+    .factoid-item {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .factoid-item:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #FF0000;
+      border-radius: 50%;
+    }
+
+    .citation {
+      font-size: 0.75rem;
+      color: #666;
+      margin-left: 0.25rem;
+      vertical-align: super;
+    }
+
+    .scientific-footer {
+      margin-top: 1.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #eaeaea;
+      font-size: 0.875rem;
+      color: #666;
+      font-style: italic;
+    }
+
+    .taxonomy-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+    }
+
+    .taxonomy-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .taxonomy-table th,
+    .taxonomy-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .taxonomy-table th {
+      background-color: #f9f9f9;
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .taxonomy-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .taxonomy-term {
+      font-style: italic;
+      color: #000000;
+    }
+
+    .nav-links {
+      margin-top: 2rem;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      color: #000000;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid #eaeaea;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: #f9f9f9;
+      border-color: #FF0000;
+      color: #FF0000;
+    }
+
+    .nav-link svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .nav-link-prev svg {
+      margin-right: 0.5rem;
+    }
+
+    .nav-link-next svg {
+      margin-left: 0.5rem;
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      color: #000000;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #FF0000;
+    }
+
+    .copyright {
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .credit {
+      font-size: 0.75rem;
+    }
+
+    .support-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #FF0000;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .support-link:hover {
+      background-color: #CC0000;
+      transform: translateY(-2px);
+    }
+
+    @media (min-width: 768px) {
+      .content-wrapper {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+
+      .image-container {
+        width: 40%;
+        margin: 0;
+      }
+
+      .monograph {
+        width: 60%;
+      }
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Anatidae Analysis</h1>
+      <h2>A scientific exploration of avian taxonomy in relation to rubber simulacra. Empirical studies suggest floatation is optimal.</h2>
+    </header>
+
+    <div class="content-wrapper">
+      <div class="image-container">
+        <img src="/api/placeholder/400/320" alt="Scientific duck specimen" id="robot-duck-image">
+        <div class="image-caption">Fig. 1: Specimen RD-2</div>
+      </div>
+
+      <div class="monograph">
+        <p>In the liminal space between biological taxonomy and synthetic representation, the common duck (<em>Anas platyrhynchos domesticus</em>) emerges as a curious subject of scientific inquiry. Its hydrodynamic form—evolutionarily optimized through 20 million years of natural selection—presents an archetypal model for buoyancy that artificial constructs have yet to fully replicate despite our technological advances.</p>
+        <p>The waterproof plumage, consisting of approximately 12,000 precisely arranged feathers, creates a hydrophobic barrier through microscopic interlocking structures and natural oil secretions. This sophisticated natural technology allows for extended aquatic navigation with minimal energy expenditure, a mechanism we continue to study for application in contemporary maritime engineering and materials science.</p>
+      </div>
+    </div>
+
+    <div class="scientific-container">
+      <div class="scientific-header">
+        <svg class="scientific-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <h3 class="scientific-title">Anatidae: Key Scientific Observations</h3>
+      </div>
+
+      <ul class="factoid-list">
+        <li class="factoid-item">
+          Ducks possess binocular vision with a field view of approximately 340°, exceeding human capabilities by 180°, allowing simultaneous aerial and underwater threat detection<span class="citation">1</span>
+        </li>
+        <li class="factoid-item">
+          The mallard duck achieves swimming speeds of 3-4 mph (4.8-6.4 km/h) and flight velocities up to 55 mph (88.5 km/h), with migratory species covering up to 800 miles (1,287 km) in a single day<span class="citation">2</span>
+        </li>
+        <li class="factoid-item">
+          Mallard vocalization mechanisms involve a specialized syrinx structure producing distinct acoustic patterns at frequencies between 1-4 kHz, with female calls exhibiting greater complexity than males<span class="citation">3</span>
+        </li>
+        <li class="factoid-item">
+          Duck feet contain no blood vessels or nerve endings in exposed areas, utilizing a countercurrent heat exchange system that prevents heat loss in cold water while maintaining core body temperature<span class="citation">4</span>
+        </li>
+        <li class="factoid-item">
+          Duck feathers contain approximately 10,000 interlocking barbules per feather, creating a hydrophobic surface with contact angles exceeding 150°, meeting the mathematical definition of superhydrophobicity<span class="citation">5</span>
+        </li>
+        <li class="factoid-item">
+          Ducks demonstrate significant cognitive capabilities, including abstract thought, numerical competence to "subitize" up to 3 objects, and episodic-like memory functioning<span class="citation">6</span>
+        </li>
+      </ul>
+
+      <div class="scientific-footer">
+        Research protocol: RD-2025-137A | Observer: [REDACTED] | Dataset: ANATIDAE-PRIME
+      </div>
+    </div>
+
+    <div class="taxonomy-container">
+      <table class="taxonomy-table">
+        <thead>
+          <tr>
+            <th>Taxonomic Rank</th>
+            <th>Classification</th>
+            <th>Defining Characteristics</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Kingdom</td>
+            <td><span class="taxonomy-term">Animalia</span></td>
+            <td>Multicellular heterotrophic organisms</td>
+          </tr>
+          <tr>
+            <td>Phylum</td>
+            <td><span class="taxonomy-term">Chordata</span></td>
+            <td>Notochord, dorsal nerve cord</td>
+          </tr>
+          <tr>
+            <td>Class</td>
+            <td><span class="taxonomy-term">Aves</span></td>
+            <td>Feathers, toothless beaked jaws, high metabolic rate</td>
+          </tr>
+          <tr>
+            <td>Order</td>
+            <td><span class="taxonomy-term">Anseriformes</span></td>
+            <td>Webbed feet, broad bills, primarily aquatic</td>
+          </tr>
+          <tr>
+            <td>Family</td>
+            <td><span class="taxonomy-term">Anatidae</span></td>
+            <td>Water-shedding feathers, specialized lamellae</td>
+          </tr>
+          <tr>
+            <td>Genus</td>
+            <td><span class="taxonomy-term">Anas</span></td>
+            <td>Dabbling feeding behavior, specific plumage patterns</td>
+          </tr>
+          <tr>
+            <td>Species</td>
+            <td><span class="taxonomy-term">A. platyrhynchos</span></td>
+            <td>Distinctive vocalization, sexual dimorphism</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="nav-links">
+      <a href="index.html" class="nav-link nav-link-prev">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Back to Robot Duck
+      </a>
+      <a href="#" class="nav-link nav-link-next">
+        Further Research
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+
+    <footer>
+      <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Privacy</a>
+        <a href="#">Contact</a>
+      </div>
+      <p class="copyright">© 2025 RobotDuck.org</p>
+      <p class="credit">Design by You & Claude</p>
+      <a href="https://www.patreon.com/YOUR_PATREON_NAME" target="_blank" class="support-link">Support</a>
+    </footer>
+  </div>
+
+  <script>
+    // Show content with animation after page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        document.querySelector('.container').classList.add('loaded');
+      }, 100);
+      
+      // Replace placeholder with actual image
+      const img = document.getElementById('robot-duck-image');
+      img.src = 'robot-duck-2.jpg';
+    });
+  </script>
+</body>
+</html>

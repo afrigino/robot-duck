@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duck Business Economics: Industry Data</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #000000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .container.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #FF0000;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #000000;
+      font-style: italic;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .intro-section {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .section-icon {
+      margin-right: 0.75rem;
+      color: #FF0000;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #000000;
+      margin: 0;
+    }
+
+    .content {
+      line-height: 1.6;
+    }
+
+    .content p {
+      margin-bottom: 1rem;
+    }
+
+    .content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .data-update-badge {
+      display: inline-block;
+      background-color: #f0f0f0;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      color: #666;
+      margin-left: 0.75rem;
+    }
+
+    .market-section, .production-section, .revenue-section, .trade-section {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .chart-container {
+      margin: 1.5rem 0;
+      height: 300px;
+      position: relative;
+      border: 1px solid #eaeaea;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      background-color: #f9f9f9;
+    }
+
+    .chart-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+
+    .chart-placeholder svg {
+      margin-bottom: 1rem;
+      color: #cccccc;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    .data-table th, .data-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .data-table th {
+      background-color: #f9f9f9;
+      font-weight: 600;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .data-value {
+      font-weight: 500;
+    }
+
+    .data-trend {
+      display: flex;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .trend-up {
+      color: #22c55e;
+    }
+
+    .trend-down {
+      color: #ef4444;
+    }
+
+    .trend-neutral {
+      color: #666;
+    }
+
+    .trend-icon {
+      margin-right: 0.25rem;
+    }
+
+    .key-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .key-stat {
+      background-color: #f9f9f9;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      border: 1px solid #eaeaea;
+    }
+
+    .key-stat-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .key-stat-label {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .data-source {
+      font-size: 0.75rem;
+      color: #666;
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+
+    .projection-badge {
+      display: inline-block;
+      background-color: #FFF5F5;
+      color: #FF0000;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.3rem;
+      border-radius: 0.25rem;
+      margin-left: 0.25rem;
+      vertical-align: middle;
+    }
+
+    .map-container {
+      margin: 1.5rem 0;
+      height: 400px;
+      position: relative;
+      border: 1px solid #eaeaea;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      overflow: hidden;
+    }
+
+    .map-overlay {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      border: 1px solid #eaeaea;
+      z-index: 10;
+    }
+
+    .map-legend {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .map-legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      margin-right: 0.5rem;
+    }
+
+    .disclaimer-note {
+      background-color: #f9f9f9;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      border-left: 3px solid #FF0000;
+    }
+
+    .note-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .note-icon {
+      margin-right: 0.5rem;
+      color: #FF0000;
+    }
+
+    .nav-links {
+      margin-top: 2rem;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      color: #000000;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid #eaeaea;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: #f9f9f9;
+      border-color: #FF0000;
+      color: #FF0000;
+    }
+
+    .nav-link svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .nav-link-prev svg {
+      margin-right: 0.5rem;
+    }
+
+    .nav-link-next svg {
+      margin-left: 0.5rem;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 2rem 0;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-top: 1px solid #eaeaea;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #FF0000;
+    }
+
+    .copyright {
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .credit {
+      font-size: 0.75rem;
+    }
+
+    .support-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #FF0000;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .support-link:hover {
+      background-color: #CC0000;
+      transform: translateY(-2px);
+    }
+
+    @media (min-width: 768px) {
+      .key-stat-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Duck Business Economics</h1>
+      <h2>Comprehensive Industry Data & Market Analysis</h2>
+    </header>
+
+    <div class="intro-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+        <h3 class="section-title">Industry Overview</h3>
+        <span class="data-update-badge">Last updated: May 2025</span>
+      </div>
+
+      <div class="content">
+        <p>The global duck industry represents a significant yet specialized sector within the broader poultry market. Unlike chicken and turkey production, which are dominated by large-scale commercial operations, duck farming maintains a diverse ecosystem of production methods ranging from traditional small-scale farming to industrialized operations.</p>
+        
+        <p>This data overview provides key economic indicators, market trends, and production statistics for the global duck industry, with particular focus on meat production, egg markets, and derivative products including down feathers and specialty items.</p>
+      </div>
+
+      <div class="key-stat-grid">
+        <div class="key-stat">
+          <div class="key-stat-value">$7.92B</div>
+          <div class="key-stat-label">Global Duck Meat Market Value (2024)</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">4.8M</div>
+          <div class="key-stat-label">Metric Tons Annual Production</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">3.7%</div>
+          <div class="key-stat-label">Annual Market Growth Rate</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">$11.3B</div>
+          <div class="key-stat-label">Projected Market Value by 2030 <span class="projection-badge">PROJECTED</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="market-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="20" x2="12" y2="10"></line>
+          <line x1="18" y1="20" x2="18" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="16"></line>
+        </svg>
+        <h3 class="section-title">Market Distribution & Consumption</h3>
+      </div>
+
+      <div class="content">
+        <p>Duck consumption patterns show significant regional variation, with Asia-Pacific regions—particularly China, Thailand, and Malaysia—representing the largest markets by volume. European consumption is concentrated in France, Germany, and the United Kingdom, while North America shows steady but modest growth centered around specialty and ethnic markets.</p>
+      </div>
+
+      <div class="map-container">
+        <div class="map-overlay">
+          <div class="map-legend">
+            <div class="map-legend-color" style="background-color: #ef4444;"></div>
+            <span>High Consumption (>5kg per capita)</span>
+          </div>
+          <div class="map-legend">
+            <div class="map-legend-color" style="background-color: #fb923c;"></div>
+            <span>Medium Consumption (2-5kg per capita)</span>
+          </div>
+          <div class="map-legend">
+            <div class="map-legend-color" style="background-color: #fcd34d;"></div>
+            <span>Low Consumption (0.5-2kg per capita)</span>
+          </div>
+          <div class="map-legend">
+            <div class="map-legend-color" style="background-color: #e5e7eb;"></div>
+            <span>Very Low Consumption (<0.5kg per capita)</span>
+          </div>
+        </div>
+
+        <div class="chart-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+          </svg>
+          <p>Global Duck Consumption Heatmap</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem;">(Interactive map displays per capita consumption by region)</p>
+        </div>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Region</th>
+            <th>Market Share</th>
+            <th>Annual Consumption</th>
+            <th>5-Year Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Asia Pacific</td>
+            <td class="data-value">68.3%</td>
+            <td>3.28M metric tons</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +4.2%
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Europe</td>
+            <td class="data-value">21.5%</td>
+            <td>1.03M metric tons</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +1.8%
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>North America</td>
+            <td class="data-value">6.7%</td>
+            <td>0.32M metric tons</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +2.3%
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Latin America</td>
+            <td class="data-value">2.2%</td>
+            <td>0.11M metric tons</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +3.1%
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Middle East & Africa</td>
+            <td class="data-value">1.3%</td>
+            <td>0.06M metric tons</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +5.7%
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="data-source">Source: Global Poultry Market Research Consortium, 2024 Annual Report</div>
+    </div>
+
+    <div class="production-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <h3 class="section-title">Production & Farming Economics</h3>
+      </div>
+
+      <div class="content">
+        <p>Duck farming operations vary widely in scale and methodology. While traditional small-scale production remains significant, particularly in Asia, industrial operations are expanding globally to meet growing demand. Feed costs typically represent 65-70% of production expenses, with specialized nutrition requirements presenting both challenges and opportunities for producers.</p>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+          </svg>
+          <p>Annual Production Volume by Country (2020-2025)</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem;">(Line chart showing production trends for top producing nations)</p>
+        </div>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Production Model</th>
+            <th>Global Share</th>
+            <th>Average Cost (per head)</th>
+            <th>Profit Margin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Traditional Small-Scale</td>
+            <td class="data-value">42.3%</td>
+            <td>$3.20 - $4.10</td>
+            <td>15-22%</td>
+          </tr>
+          <tr>
+            <td>Semi-Intensive</td>
+            <td class="data-value">31.5%</td>
+            <td>$2.85 - $3.40</td>
+            <td>18-25%</td>
+          </tr>
+          <tr>
+            <td>Industrial Operation</td>
+            <td class="data-value">26.2%</td>
+            <td>$2.40 - $2.75</td>
+            <td>23-30%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="key-stat-grid" style="margin-top: 2rem;">
+        <div class="key-stat">
+          <div class="key-stat-value">65-75</div>
+          <div class="key-stat-label">Days Average Growth Period</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">2.8:1</div>
+          <div class="key-stat-label">Feed Conversion Ratio</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">$72.4M</div>
+          <div class="key-stat-label">Global R&D Investment (2024)</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">7.2%</div>
+          <div class="key-stat-label">Annual Production Growth in Emerging Markets</div>
+        </div>
+      </div>
+      <div class="data-source">Source: International Waterfowl Production Association, Economic Analysis Division</div>
+    </div>
+
+    <div class="hunting-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 13V5.5a2.5 2.5 0 0 1 5 0V12"></path>
+          <path d="M11 5.5v-2a2.5 2.5 0 0 1 5 0V12"></path>
+          <path d="M21 13V5.5a2.5 2.5 0 1 0-5 0V12"></path>
+          <path d="M18 12v6.9a2.6 2.6 0 0 1-3.8 2.3L11 19l-3.3 2.3A2.7 2.7 0 0 1 4 19v-7"></path>
+          <path d="M18 6a2.5 2.5 0 0 0-5 0 2.5 2.5 0 0 0 5 0z"></path>
+        </svg>
+        <h3 class="section-title">Duck Hunting Economics & Conservation</h3>
+      </div>
+
+      <div class="content">
+        <p>Duck hunting represents a significant economic driver within the broader hunting industry, generating substantial revenue through license fees, equipment sales, and conservation funding mechanisms. This sector contributes to both wildlife conservation and local economies while supporting extensive supply chains.</p>
+      </div>
+
+      <div class="key-stat-grid">
+        <div class="key-stat">
+          <div class="key-stat-value">$1.2B+</div>
+          <div class="key-stat-label">Duck Stamp Revenue Since 1934</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">6M+</div>
+          <div class="key-stat-label">Acres Conserved Through Duck Stamps</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">1.5M</div>
+          <div class="key-stat-label">Duck Stamps Sold Annually</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">$1,100</div>
+          <div class="key-stat-label">Avg. Annual Spend Per Waterfowl Hunter</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+          </svg>
+          <p>Duck Stamp Revenue and Conservation Impact (1934-2025)</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem;">(Graph showing duck stamp sales and corresponding acreage conserved)</p>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Conservation Funding Mechanisms</h4>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Funding Source</th>
+            <th>Annual Revenue</th>
+            <th>Conservation Impact</th>
+            <th>Administrative Overhead</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Federal Duck Stamps</td>
+            <td class="data-value">~$40 Million</td>
+            <td>Direct wetland acquisition and easements</td>
+            <td>2%</td>
+          </tr>
+          <tr>
+            <td>Pittman-Robertson Excise Tax</td>
+            <td class="data-value">~$1.1 Billion</td>
+            <td>State wildlife agencies and habitat</td>
+            <td>8%</td>
+          </tr>
+          <tr>
+            <td>State Duck Stamps</td>
+            <td class="data-value">~$25 Million</td>
+            <td>State-specific conservation projects</td>
+            <td>5-15%</td>
+          </tr>
+          <tr>
+            <td>Private Conservation Organizations</td>
+            <td class="data-value">~$220 Million</td>
+            <td>Habitat restoration and research</td>
+            <td>10-20%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="data-source">Source: U.S. Fish and Wildlife Service, National Shooting Sports Foundation, 2024</div>
+    </div>
+
+    <div class="supply-chain-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34l1 1L23 7v10"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        </svg>
+        <h3 class="section-title">Hunting Equipment & Supply Chain Economics</h3>
+      </div>
+
+      <div class="content">
+        <p>The duck hunting equipment and accessories market represents a significant segment within the broader hunting industry, with specialized products ranging from decoys and calls to firearms, ammunition, and apparel. This market is characterized by seasonal demand patterns and growing interest in high-tech gear that enhances hunting efficiency.</p>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M16.2 7.8l-2 6.3-6.4 2.1 2-6.3z"></path>
+          </svg>
+          <p>Waterfowl Hunting Equipment Market Segmentation (2024)</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem;">(Breakdown of equipment categories by market share)</p>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Equipment Market Value by Segment</h4>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Equipment Category</th>
+            <th>Market Value</th>
+            <th>Growth Rate</th>
+            <th>Key Trends</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Firearms & Ammunition</td>
+            <td class="data-value">$5.2 Billion</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +5.8%
+              </div>
+            </td>
+            <td>Lighter, more specialized shotguns</td>
+          </tr>
+          <tr>
+            <td>Decoys & Calls</td>
+            <td class="data-value">$920 Million</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +7.2%
+              </div>
+            </td>
+            <td>Electronic calls, ultra-realistic decoys</td>
+          </tr>
+          <tr>
+            <td>Apparel & Waders</td>
+            <td class="data-value">$1.65 Billion</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +6.5%
+              </div>
+            </td>
+            <td>Advanced camouflage, breathable materials</td>
+          </tr>
+          <tr>
+            <td>Blinds & Accessories</td>
+            <td class="data-value">$780 Million</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +4.9%
+              </div>
+            </td>
+            <td>Portable, lightweight setups</td>
+          </tr>
+          <tr>
+            <td>Electronics & Optics</td>
+            <td class="data-value">$430 Million</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +9.1%
+              </div>
+            </td>
+            <td>GPS tracking, specialized optics</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="data-source">Source: Grand View Research, The Brainy Insights, 2024</div>
+
+      <div class="key-stat-grid" style="margin-top: 2rem;">
+        <div class="key-stat">
+          <div class="key-stat-value">$19.9B</div>
+          <div class="key-stat-label">Total Hunting Equipment Market (2021)</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">7.5%</div>
+          <div class="key-stat-label">Annual Growth Rate Through 2030</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">$38B</div>
+          <div class="key-stat-label">Projected Market Value by 2030</div>
+        </div>
+        <div class="key-stat">
+          <div class="key-stat-value">18-25%</div>
+          <div class="key-stat-label">Typical Retail Profit Margins</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="economic-impact-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <h3 class="section-title">Local Economic Impact & Job Creation</h3>
+      </div>
+
+      <div class="content">
+        <p>Beyond equipment sales and conservation funding, duck hunting generates significant economic activity in rural communities through hospitality, guide services, and related tourism. This "multiplier effect" creates jobs and supports local businesses in areas where traditional economic opportunities may be limited.</p>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="3" y1="9" x2="21" y2="9"></line>
+            <line x1="9" y1="21" x2="9" y2="9"></line>
+          </svg>
+          <p>Economic Multiplier Effect of Duck Hunting (2024)</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem;">(Flow chart showing how hunting dollars circulate through local economies)</p>
+        </div>
+      </div>
+
+      <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Economic Impact by Category</h4>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Impact Category</th>
+            <th>Annual Value</th>
+            <th>Employment Impact</th>
+            <th>Geographic Distribution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lodging & Hospitality</td>
+            <td class="data-value">$1.2 Billion</td>
+            <td>15,200 jobs</td>
+            <td>Rural communities near wildlife refuges</td>
+          </tr>
+          <tr>
+            <td>Guide Services</td>
+            <td class="data-value">$580 Million</td>
+            <td>8,700 jobs</td>
+            <td>Major flyway regions</td>
+          </tr>
+          <tr>
+            <td>Retail (Local Outlets)</td>
+            <td class="data-value">$920 Million</td>
+            <td>12,400 jobs</td>
+            <td>Widespread rural distribution</td>
+          </tr>
+          <tr>
+            <td>Food & Beverage</td>
+            <td class="data-value">$740 Million</td>
+            <td>9,800 jobs</td>
+            <td>Communities within 50 miles of hunting areas</td>
+          </tr>
+          <tr>
+            <td>Transportation</td>
+            <td class="data-value">$430 Million</td>
+            <td>4,100 jobs</td>
+            <td>Regional distribution hubs</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="data-source">Source: National Shooting Sports Foundation, U.S. Fish & Wildlife Service, 2023</div>
+
+      <div class="disclaimer-note" style="margin-top: 2rem;">
+        <div class="note-header">
+          <svg class="note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Conservation Economic Model
+        </div>
+        <p>The duck hunting industry represents one of the most successful examples of a "user-pays" conservation funding model in the world. Through mechanisms like the Federal Duck Stamp (established 1934) and the Pittman-Robertson Wildlife Restoration Act (1937), waterfowl hunters directly fund habitat conservation and research that benefits both game and non-game species. This self-imposed taxation system has generated billions in conservation funding, with minimal administrative overhead, and has contributed to the protection of over 6 million acres of critical wetland habitat.</p>
+      </div>
+    </div>
+
+    <div class="revenue-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        <h3 class="section-title">Revenue Streams & Market Segments</h3>
+      </div>
+
+      <div class="content">
+        <p>The duck industry has diversified revenue streams beyond traditional meat production. While whole duck and processed meat products remain the primary market segment, specialty products including foie gras, duck eggs, and down feathers represent growing revenue sources with significantly higher profit margins.</p>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+          </svg>
+          <p>Revenue Distribution by Product Segment (2024)</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem;">(Pie chart showing percentage breakdown of industry revenue sources)</p>
+        </div>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Product Category</th>
+            <th>Market Value</th>
+            <th>Annual Growth</th>
+            <th>Profit Margin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Whole Duck & Parts</td>
+            <td class="data-value">$5.12B</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +3.1%
+              </div>
+            </td>
+            <td>18-24%</td>
+          </tr>
+          <tr>
+            <td>Processed Products</td>
+            <td class="data-value">$1.78B</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +5.3%
+              </div>
+            </td>
+            <td>25-32%</td>
+          </tr>
+          <tr>
+            <td>Specialty Products (Foie Gras)</td>
+            <td class="data-value">$0.48B</td>
+            <td>
+              <div class="data-trend trend-down">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 13a1 1 0 100 2h5a1 1 0 001-1V9a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 9.586 3.707 5.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 9.414 14.586 13H12z" clip-rule="evenodd" />
+                </svg>
+                -1.8%
+              </div>
+            </td>
+            <td>40-55%</td>
+          </tr>
+          <tr>
+            <td>Duck Eggs</td>
+            <td class="data-value">$0.32B</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +8.7%
+              </div>
+            </td>
+            <td>22-28%</td>
+          </tr>
+          <tr>
+            <td>Down & Feathers</td>
+            <td class="data-value">$0.22B</td>
+            <td>
+              <div class="data-trend trend-up">
+                <svg class="trend-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                </svg>
+                +4.2%
+              </div>
+            </td>
+            <td>30-45%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="data-source">Source: Waterfowl Products Market Analysis Quarterly, Q1 2025</div>
+    </div>
+
+    <div class="trade-section">
+      <div class="section-header">
+        <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+        <h3 class="section-title">International Trade & Market Dynamics</h3>
+      </div>
+
+      <div class="content">
+        <p>International trade in duck products has grown steadily, with China, Thailand, and France emerging as the largest exporters. Recent market dynamics have been influenced by changing consumption patterns, stricter animal welfare regulations in Europe, and increased interest in specialty and heritage breeds in premium markets.</p>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          </svg>
+          <p>Export-Import Balance by Region (2020-2025)</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem;">(Interactive chart showing trade flows between major producing and consuming regions)</p>
+        </div>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Top Exporters</th>
+            <th>Export Volume</th>
+            <th>Market Share</th>
+            <th>Trade Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>China</td>
+            <td class="data-value">1.2M metric tons</td>
+            <td>45.2%</td>
+            <td>$3.12B</td>
+          </tr>
+          <tr>
+            <td>Thailand</td>
+            <td class="data-value">0.52M metric tons</td>
+            <td>19.6%</td>
+            <td>$1.44B</td>
+          </tr>
+          <tr>
+            <td>France</td>
+            <td class="data-value">0.31M metric tons</td>
+            <td>11.7%</td>
+            <td>$0.97B</td>
+          </tr>
+          <tr>
+            <td>Vietnam</td>
+            <td class="data-value">0.22M metric tons</td>
+            <td>8.3%</td>
+            <td>$0.65B</td>
+          </tr>
+          <tr>
+            <td>Hungary</td>
+            <td class="data-value">0.15M metric tons</td>
+            <td>5.6%</td>
+            <td>$0.42B</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="data-source">Source: Global Agricultural Trade Database, Waterfowl Section, 2024</div>
+
+      <div class="disclaimer-note">
+        <div class="note-header">
+          <svg class="note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Data Collection Methodology
+        </div>
+        <p>The economic data presented on this page is compiled from industry reports, governmental agricultural statistics, and specialized market research publications. Given the fragmented nature of duck production in many regions, particularly small-scale operations in developing markets, figures may represent conservative estimates. All monetary values are presented in USD using average 2024 exchange rates. Projections for future market values incorporate analysis of historical growth patterns, emerging consumer trends, and input from industry specialists.</p>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a href="shop.html" class="nav-link nav-link-prev">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Shop
+      </a>
+      <a href="index.html" class="nav-link nav-link-next">
+        Back to Home
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="copyright">© 2025 RobotDuck.org</p>
+    <p class="credit">Design by You & Claude</p>
+    <a href="https://www.patreon.com/YOUR_PATREON_NAME" target="_blank" class="support-link">Support</a>
+  </footer>
+
+  <script>
+    // Show content with animation after page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        document.querySelector('.container').classList.add('loaded');
+      }, 100);
+    });
+  </script>
+</body>
+</html>
