@@ -54,14 +54,14 @@ npm run deploy
 ```
 /robot-duck
 ├── index.html                     # Main landing page
-├── about-real-ducks-page.html     # Scientific duck information
-├── celebrity-ducks-page.html      # Cartoon duck characters
-├── fake-birds-page.html           # Birds Aren't Real analysis
-├── fh-king-page.html              # F.H. King biography
-├── further-research-page.html     # Interactive lab
-├── duck-data-page.html            # Duck market economics
-├── shop-page.html                 # Product page (sold out)
-├── legal-policies-page.html       # Terms & policies
+├── about-real-ducks.html     # Scientific duck information
+├── celebrity-ducks.html      # Cartoon duck characters
+├── fake-birds.html           # Birds Aren't Real analysis
+├── fh-king.html              # F.H. King biography
+├── further-research.html     # Interactive lab
+├── duck-data.html            # Duck market economics
+├── shop.html                 # Product page (sold out)
+├── legal-policies.html       # Terms & policies
 ├── sitemap.html                   # Site navigation overview
 ├── robot-duck.jpg                 # Main robot duck image
 ├── robot-duck-2.jpg               # Scientific specimen image
