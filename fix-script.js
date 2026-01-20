@@ -11,15 +11,16 @@ const path = require('path');
 // Map of file names to their correct paths
 const fileMap = {
   'index.html': 'index.html',
-  'about-ducks.html': 'about-real-ducks-page.html',
-  'about-real-ducks.html': 'about-real-ducks-page.html',
-  'further-research.html': 'further-research-page.html',
-  'duck-data.html': 'duck-data-page.html',
-  'celebrity-ducks.html': 'celebrity-ducks-page.html',
-  'fake-birds.html': 'fake-birds-page.html',
-  'fh-king.html': 'fh-king-page.html',
-  'shop.html': 'shop-page.html',
-  'legal-policies.html': 'legal-policies-page.html',
+  'about-ducks.html': 'about.html',
+  'about-real-ducks.html': 'about.html',
+  'further-research.html': 'research.html',
+  'duck-data.html': 'data.html',
+  'celebrity-ducks.html': 'ducks.html',
+  'fake-birds.html': 'fakes.html',
+  'fh-king.html': 'king.html',
+  'f-h-king.html': 'king.html',
+  'shop.html': 'shop.html',
+  'legal-policies.html': 'legal.html',
   'sitemap.html': 'sitemap.html'
 };
 

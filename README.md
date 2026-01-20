@@ -54,19 +54,19 @@ npm run deploy
 ```
 /robot-duck
 ├── index.html                     # Main landing page
-├── about-real-ducks.html     # Scientific duck information
-├── celebrity-ducks.html      # Cartoon duck characters
-├── fake-birds.html           # Birds Aren't Real analysis
-├── fh-king.html              # F.H. King biography
-├── further-research.html     # Interactive lab
-├── duck-data.html            # Duck market economics
-├── shop.html                 # Product page (sold out)
-├── legal-policies.html       # Terms & policies
-├── sitemap.html                   # Site navigation overview
+├── about.html                     # Scientific duck information
+├── ducks.html                     # Cartoon duck characters
+├── fakes.html                     # Birds Aren't Real analysis
+├── king.html                      # F.H. King biography
+├── research.html                  # Interactive lab
+├── data.html                      # Duck market economics
+├── shop.html                      # Product page (sold out)
+├── legal.html                     # Terms & policies
+├── docs/sitemap.html              # Site navigation overview
 ├── robot-duck.jpg                 # Main robot duck image
 ├── robot-duck-2.jpg               # Scientific specimen image
 ├── robot-duck-3.jpg               # Research lab specimen
-├── fix-navigation.js              # Link fixing script
+├── fix-script.js                  # Link fixing script
 ├── package.json                   # Project configuration
 └── README.md                      # This file
 ```
@@ -87,7 +87,7 @@ npm run deploy
 If you rename any files or notice navigation issues, you can run the included fix script:
 
 ```bash
-node fix-navigation.js
+node fix-script.js
 ```
 
 This will update all links across the site to maintain consistent navigation.
